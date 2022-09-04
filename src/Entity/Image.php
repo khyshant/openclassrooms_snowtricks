@@ -19,8 +19,9 @@ class Image
     #[ORM\ManyToOne(inversedBy: 'images')]
     private ?Trick $Trick = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $user = null;
+    #[ORM\OneToOne(inversedBy: 'image', cascade: ['persist', 'remove'])]
+    private ?user $user = null;
+
 
     public function getId(): ?int
     {
@@ -51,15 +52,17 @@ class Image
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUser(): ?user
     {
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(?user $user): self
     {
         $this->user = $user;
 
         return $this;
     }
+
+
 }

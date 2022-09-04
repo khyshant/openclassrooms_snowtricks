@@ -33,14 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 120)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $avatar = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $token = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Trick::class)]
     private Collection $tricks;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Image $image = null;
 
     public function __construct()
     {
@@ -129,17 +129,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getAvatar(): ?string
-    {
-        return $this->avatar;
-    }
-
-    public function setAvatar(string $avatar): self
-    {
-        $this->avatar = $avatar;
-
-        return $this;
-    }
 
     public function getToken(): ?string
     {
@@ -179,6 +168,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $trick->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(?Image $image): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($image === null && $this->image !== null) {
+            $this->image->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($image !== null && $image->getUser() !== $this) {
+            $image->setUser($this);
+        }
+
+        $this->image = $image;
 
         return $this;
     }
