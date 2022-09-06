@@ -50,6 +50,9 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'tricks')]
+    private ?Group $groupTrick = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -225,6 +228,18 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGroupTrick(): ?Group
+    {
+        return $this->groupTrick;
+    }
+
+    public function setGroupTrick(?Group $groupTrick): self
+    {
+        $this->groupTrick = $groupTrick;
 
         return $this;
     }
