@@ -77,6 +77,12 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
+        "fixtures": [
+            "php bin/console d:d:d --if-exists -n --force",
+            "php bin/console d:d:c",
+            "php bin/console d:s:u -f",
+            "php bin/console d:f:l -n"
+        ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
