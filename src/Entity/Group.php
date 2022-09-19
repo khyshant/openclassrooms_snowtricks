@@ -34,6 +34,9 @@ class Group
 
     public function __construct()
     {
+        $this->setDateAdd() ;
+        $this->setDateUpd() ;
+        $this->setValid(false) ;
         $this->tricks = new ArrayCollection();
     }
 
@@ -71,11 +74,9 @@ class Group
         return $this->dateAdd;
     }
 
-    public function setDateAdd(\DateTimeInterface $dateAdd): self
+    public function setDateAdd(): void
     {
-        $this->dateAdd = $dateAdd;
-
-        return $this;
+        $this->dateAdd = new \DateTime();
     }
 
     public function getDateUpd(): ?\DateTimeInterface
@@ -83,11 +84,9 @@ class Group
         return $this->dateUpd;
     }
 
-    public function setDateUpd(\DateTimeInterface $dateUpd): self
+    public function setDateUpd(): void
     {
-        $this->dateUpd = $dateUpd;
-
-        return $this;
+        $this->dateUpd = new \DateTime();
     }
 
     /**

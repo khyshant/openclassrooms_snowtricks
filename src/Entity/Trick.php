@@ -147,7 +147,6 @@ class Trick
     public function setDateAdd(): void
     {
         $this->dateAdd = new \DateTime();
-
     }
 
     public function getDateUpdate(): ?\DateTimeInterface
@@ -158,7 +157,6 @@ class Trick
     public function setDateUpdate(): void
     {
         $this->dateUpdate = new \DateTime();
-
     }
 
     public function getAuthor(): ?User

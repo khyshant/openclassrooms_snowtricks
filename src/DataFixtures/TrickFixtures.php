@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 
+use App\Entity\Group;
 use App\Entity\User;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
@@ -17,9 +18,13 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
     {
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAllUser();
+        $groupRepository = $manager->getRepository(Group::class);
+        $groups = $groupRepository->findAll();
+        $countGroup  = count($groups);
         foreach($users as $user){
             $manyTricks = rand(5,25);
             for($i=1; $i<=$manyTricks; $i++){
+                $group = $groupRepository->find(rand(1,$countGroup));
                 $trick = new Trick();
                 $trick->setTitle("test");
                 $trick->setDescription("test description");
@@ -28,7 +33,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
                 $trick->setDateAdd("1970-01-01 00:00:01");
                 $trick->setDateUpdate("1970-01-01 00:00:02");
                 $trick->setMetaTitle("metaTitle");
-                $trick->setGroupTrick(null);
+                $trick->setGroupTrick($group);
                 $trick->setSlug("test");
                 $trick->setValid(false) ;
                 $manager->persist($trick);
@@ -41,6 +46,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            GroupFixtures::class,
         ];
     }
 }

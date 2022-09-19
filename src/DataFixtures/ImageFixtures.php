@@ -76,18 +76,27 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         return $this->uploadDirAvatarAbsolutePath.'/'.$username.'.png';
     }
     private function createtrickImage($trickId,$i) {
+        if(!is_dir($this->uploadDirFixturesAbsolutePath.'tricks/')){
+            mkdir($this->uploadDirFixturesAbsolutePath.'tricks/', 0744);
+        }
         if(!is_dir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId)){
             mkdir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId, 0744);
         } else {
             copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
         }
-        copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
         return $this->uploadDirTricksAbsolutePath.'/'.$trickId.'/'.$i.'.png';
     }
 
     private function CleanFixtureImages() {
-        $avatarsFiles = scandir($this->uploadDirFixturesAbsolutePath.'avatar/');
-        $tricksFolders = scandir($this->uploadDirFixturesAbsolutePath.'tricks/');
+        $avatarsFiles = [];
+        $tricksFolders = [];
+        if(is_dir($this->uploadDirFixturesAbsolutePath.'avatar/')){
+            $avatarsFiles = scandir($this->uploadDirFixturesAbsolutePath.'avatar/');
+        }
+        if(is_dir($this->uploadDirFixturesAbsolutePath.'tricks/')){
+            $tricksFolders = scandir($this->uploadDirFixturesAbsolutePath.'tricks/');
+        }
+
         foreach($avatarsFiles as $file) {
             if($file != "." && $file != ".." ){
                unlink($this->uploadDirFixturesAbsolutePath.'avatar/'.$file);
