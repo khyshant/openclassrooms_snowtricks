@@ -31,6 +31,12 @@ class Comment
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateAdd = null;
 
+    public function __construct()
+    {
+        $this->setDateAdd() ;
+        $this->setValid(false) ;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -89,10 +95,9 @@ class Comment
         return $this->dateAdd;
     }
 
-    public function setDateAdd(\DateTimeInterface $dateAdd): self
+    public function setDateAdd( ): void
     {
-        $this->dateAdd = $dateAdd;
+        $this->dateAdd = new \DateTime();
 
-        return $this;
     }
 }

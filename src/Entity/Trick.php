@@ -55,6 +55,9 @@ class Trick
 
     public function __construct()
     {
+        $this->setDateAdd() ;
+        $this->setDateUpdate() ;
+        $this->setValid(false) ;
         $this->images = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
@@ -141,11 +144,9 @@ class Trick
         return $this->dateAdd;
     }
 
-    public function setDateAdd(\DateTimeInterface $dateAdd): self
+    public function setDateAdd(): void
     {
-        $this->dateAdd = $dateAdd;
-
-        return $this;
+        $this->dateAdd = new \DateTime();
     }
 
     public function getDateUpdate(): ?\DateTimeInterface
@@ -153,11 +154,9 @@ class Trick
         return $this->dateUpdate;
     }
 
-    public function setDateUpdate(\DateTimeInterface $dateUpdate): self
+    public function setDateUpdate(): void
     {
-        $this->dateUpdate = $dateUpdate;
-
-        return $this;
+        $this->dateUpdate = new \DateTime();
     }
 
     public function getAuthor(): ?User
