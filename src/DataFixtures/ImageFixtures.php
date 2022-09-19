@@ -69,11 +69,19 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private function createAvatar($username) {
+        if(!is_dir($this->uploadDirFixturesAbsolutePath.'avatar/')){
+            mkdir($this->uploadDirFixturesAbsolutePath.'avatar/', 0744);
+        }
         copy($this->uploadDirFixturesAbsolutePath.'/originals/avatar.png',$this->uploadDirFixturesAbsolutePath.'avatar/'.$username.'.png');
         return $this->uploadDirAvatarAbsolutePath.'/'.$username.'.png';
     }
     private function createtrickImage($trickId,$i) {
-        copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
+        if(!is_dir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId)){
+            mkdir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId, 0744);
+        } else {
+            copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
+        }
+        copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
         return $this->uploadDirTricksAbsolutePath.'/'.$trickId.'/'.$i.'.png';
     }
 
@@ -102,6 +110,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             UserFixtures::class,
+            TrickFixtures::class,
         ];
     }
 }

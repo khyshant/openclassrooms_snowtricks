@@ -20,7 +20,8 @@ class UserFixtures extends Fixture
         $user->setToken("testtoken");
         $user->setUsername("anthony");
         $manager->persist($user);
-        for($i=2; $i<=5; $i++){
+        $manyUsers = rand(5,25);
+        for($i=2; $i<=$manyUsers; $i++){
             $user = new User();
             $user->setEmail("user".$i."@test.com");
             $user->setPassword('123456');
