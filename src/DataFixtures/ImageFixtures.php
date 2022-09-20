@@ -12,6 +12,7 @@ use App\Entity\Images;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -91,30 +92,20 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
 
     private function CleanFixtureImages() {
         $filesystem = new Filesystem();
-        $avatarsFiles = [];
-        $tricksFolders = [];
+        $finder = new finder();
+        $findAvatarsFiles = [];
+        $findTricksFolders = [];
         if($filesystem->exists($this->uploadDirFixturesAbsolutePath.'avatar/')){
-            $avatarsFiles = scandir($this->uploadDirFixturesAbsolutePath.'avatar/');
+            $findAvatarsFiles = $finder->in($this->uploadDirFixturesAbsolutePath.'avatar/')->depth(0)->name("*")->sortByName();
         }
         if($filesystem->exists($this->uploadDirFixturesAbsolutePath.'tricks/')){
-            $tricksFolders = scandir($this->uploadDirFixturesAbsolutePath.'tricks/');
+            $findTricksFolders = $finder->in($this->uploadDirFixturesAbsolutePath.'tricks/')->sortByName()->getIterator();
         }
-
-        foreach($avatarsFiles as $file) {
-            if($file != "." && $file != ".." ){
-                $filesystem->remove($this->uploadDirFixturesAbsolutePath.'avatar/'.$file);
-            }
+        foreach($findAvatarsFiles as $file) {
+            $filesystem->remove($this->uploadDirFixturesAbsolutePath.'avatar/'.$file->getRelativePathname());
         }
-        foreach($tricksFolders as $folders) {
-            if($folders != "." && $folders != ".." ){
-                $files = scandir($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders);
-                foreach($files as $file){
-                    if($file != "." && $file != ".." ) {
-                        $filesystem->remove($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders.'/'.$file);
-                    }
-                }
-                $filesystem->remove($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders);
-            }
+        foreach($findTricksFolders as $folders) {
+            $filesystem->remove($this->uploadDirFixturesAbsolutePath.'tricks/'.$folders->getRelativePathname());
         }
     }
 
