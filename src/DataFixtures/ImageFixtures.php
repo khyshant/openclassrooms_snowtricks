@@ -11,7 +11,7 @@ use Faker\Generator;
 use App\Entity\Images;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Finder\Finder;
+use Symfony\Component\Filesystem\Filesystem;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -69,37 +69,40 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     }
 
     private function createAvatar($username) {
-        if(!is_dir($this->uploadDirFixturesAbsolutePath.'avatar/')){
-            mkdir($this->uploadDirFixturesAbsolutePath.'avatar/', 0744);
+        $filesystem = new Filesystem();
+        if(!$filesystem->exists($this->uploadDirFixturesAbsolutePath.'avatar/')){
+            $filesystem->mkdir($this->uploadDirFixturesAbsolutePath.'avatar/', 0744);
         }
-        copy($this->uploadDirFixturesAbsolutePath.'/originals/avatar.png',$this->uploadDirFixturesAbsolutePath.'avatar/'.$username.'.png');
+        $filesystem->copy($this->uploadDirFixturesAbsolutePath.'/originals/avatar.png',$this->uploadDirFixturesAbsolutePath.'avatar/'.$username.'.png');
         return $this->uploadDirAvatarAbsolutePath.'/'.$username.'.png';
     }
     private function createtrickImage($trickId,$i) {
-        if(!is_dir($this->uploadDirFixturesAbsolutePath.'tricks/')){
-            mkdir($this->uploadDirFixturesAbsolutePath.'tricks/', 0744);
+        $filesystem = new Filesystem();
+        if(!$filesystem->exists($this->uploadDirFixturesAbsolutePath.'tricks/')){
+            $filesystem->mkdir($this->uploadDirFixturesAbsolutePath.'tricks/', 0744);
         }
-        if(!is_dir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId)){
-            mkdir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId, 0744);
+        if(!$filesystem->exists($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId)){
+            $filesystem->mkdir($this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId, 0744);
         } else {
-            copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
+            $filesystem->copy($this->uploadDirFixturesAbsolutePath.'/originals/'.$i.'.png',$this->uploadDirFixturesAbsolutePath.'tricks/'.$trickId.'/'.$i.'.png');
         }
         return $this->uploadDirTricksAbsolutePath.'/'.$trickId.'/'.$i.'.png';
     }
 
     private function CleanFixtureImages() {
+        $filesystem = new Filesystem();
         $avatarsFiles = [];
         $tricksFolders = [];
-        if(is_dir($this->uploadDirFixturesAbsolutePath.'avatar/')){
+        if($filesystem->exists($this->uploadDirFixturesAbsolutePath.'avatar/')){
             $avatarsFiles = scandir($this->uploadDirFixturesAbsolutePath.'avatar/');
         }
-        if(is_dir($this->uploadDirFixturesAbsolutePath.'tricks/')){
+        if($filesystem->exists($this->uploadDirFixturesAbsolutePath.'tricks/')){
             $tricksFolders = scandir($this->uploadDirFixturesAbsolutePath.'tricks/');
         }
 
         foreach($avatarsFiles as $file) {
             if($file != "." && $file != ".." ){
-               unlink($this->uploadDirFixturesAbsolutePath.'avatar/'.$file);
+                $filesystem->remove($this->uploadDirFixturesAbsolutePath.'avatar/'.$file);
             }
         }
         foreach($tricksFolders as $folders) {
@@ -107,10 +110,10 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                 $files = scandir($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders);
                 foreach($files as $file){
                     if($file != "." && $file != ".." ) {
-                        unlink($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders.'/'.$file);
+                        $filesystem->remove($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders.'/'.$file);
                     }
                 }
-                rmdir($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders);
+                $filesystem->remove($this->uploadDirFixturesAbsolutePath.'/tricks/'.$folders);
             }
         }
     }
