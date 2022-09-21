@@ -15,9 +15,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $uploadDirAvatarAbsolutePath: '%upload_dir_avatar_absolute_path%'
-            $uploadDirTricksAbsolutePath: '%upload_dir_tricks_absolute_path%'
-            $uploadDirFixturesAbsolutePath: '%upload_dir_fixtures_absolute_path%'
+            $uploadDirAvatar: '%upload_dir_avatar_absolute_path%'
+            $uploadDirTricks: '%upload_dir_tricks_absolute_path%'
+            $uploadDirFixtures: '%upload_dir_fixtures_absolute_path%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
