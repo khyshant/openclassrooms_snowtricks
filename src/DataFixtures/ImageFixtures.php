@@ -76,17 +76,13 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         $filesystem->copy($this->uploadDirFixtures.'/originals/avatar.png',$this->uploadDirFixtures.'avatar/'.$username.'.png');
         return $this->uploadDirAvatar.'/'.$username.'.png';
     }
-    private function createtrickImage($trickId,$i) {
+    private function createtrickImage($trickId,$number) {
         $filesystem = new Filesystem();
         if(!$filesystem->exists($this->uploadDirFixtures.'tricks/')){
             $filesystem->mkdir($this->uploadDirFixtures.'tricks/', 0744);
         }
-        if(!$filesystem->exists($this->uploadDirFixtures.'tricks/'.$trickId)){
-            $filesystem->mkdir($this->uploadDirFixtures.'tricks/'.$trickId, 0744);
-        } else {
-            $filesystem->copy($this->uploadDirFixtures.'/originals/'.$i.'.png',$this->uploadDirFixtures.'tricks/'.$trickId.'/'.$i.'.png');
-        }
-        return $this->uploadDirTricks.'/'.$trickId.'/'.$i.'.png';
+        $filesystem->copy($this->uploadDirFixtures.'/originals/'.$number.'.png',$this->uploadDirFixtures.'tricks/'.$trickId.'/'.$number.'.png');
+        return $this->uploadDirTricks.'/'.$trickId.'/'.$number.'.png';
     }
 
     private function CleanFixtureImages() {
