@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupRepository;
+use App\Repository\GroupTrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GroupRepository::class)]
-#[ORM\Table(name: '`group`')]
-class Group
+#[ORM\Entity(repositoryClass: GroupTrickRepository::class)]
+#[ORM\Table(name: 'grouptrick')]
+class GroupTrick
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[ORM\Table(name: 'trick')]
 class Trick
 {
     #[ORM\Id]
@@ -51,7 +52,7 @@ class Trick
     private Collection $comments;
 
     #[ORM\ManyToOne(inversedBy: 'tricks')]
-    private ?Group $groupTrick = null;
+    private ?GroupTrick $groupTrick = null;
 
     public function __construct()
     {
@@ -231,12 +232,12 @@ class Trick
         return $this;
     }
 
-    public function getGroupTrick(): ?Group
+    public function getGroupTrick(): ?GroupTrick
     {
         return $this->groupTrick;
     }
 
-    public function setGroupTrick(?Group $groupTrick): self
+    public function setGroupTrick(?GroupTrick $groupTrick): self
     {
         $this->groupTrick = $groupTrick;
 

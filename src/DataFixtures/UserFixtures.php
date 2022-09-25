@@ -6,6 +6,7 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use Faker\Generator;
 use App\Entity\User;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -13,6 +14,7 @@ class UserFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
         $user = new User();
         $user->setEmail("anth.blanchard@gmail.com");
         $user->setPassword('123456');

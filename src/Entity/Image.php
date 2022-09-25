@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ImageRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
+#[ORM\Table(name: 'image')]
 class Image
 {
     #[ORM\Id]
@@ -20,7 +22,7 @@ class Image
     private ?Trick $Trick = null;
 
     #[ORM\OneToOne(inversedBy: 'image', cascade: ['persist', 'remove'])]
-    private ?user $user = null;
+    private ?User $user = null;
 
 
     public function getId(): ?int
