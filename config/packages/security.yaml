@@ -36,6 +36,12 @@ security:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
 
+        # matches /admin/* except for anything matching the above rule
+
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN,ROLE_USER]
+
 when@test:
     security:
         password_hashers:

@@ -4,12 +4,57 @@
         <title>{% block title %}{% endblock %} - My Webpage</title>
         {{ include('/parts/head_block.html.twig') }}
     </head>
-<body>
-<div id="content" class="row">{% block content %}{% endblock %}</div>
+<body class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <img src="{{ asset('images/logo.png') }}" id="logo" alt="logo snowtrick"><a class="navbar-brand" href="">SnowTricks</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="">Accueil</a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') == TRUE %}
+                <li class="nav-item">
+                    <a class="nav-link" href="">gérer les Utilisateur</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Gérer les tricks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Gérer les commentaires</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Déconnexion</a>
+                </li>
+            {% elseif is_granted('ROLE_USER') == TRUE %}
+                <li class="nav-item">
+                    <a class="nav-link" href="">Ajouter un trick</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Déconnexion</a>
+                </li>
+            {% else %}
+
+                <li class="nav-item">
+                    <a class="nav-link" href="">inscription</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="">Connexion</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+</nav>
+{% block content %}{% endblock %}
 <div id="footer">
     {% block footer %}
         &copy; Copyright 2011 by <a href="http://domain.invalid/">you</a>.
     {% endblock %}
 </div>
+{% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}
 </body>
 </html>

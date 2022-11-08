@@ -18,7 +18,7 @@ class UserFixtures extends Fixture
         $user = new User();
         $user->setEmail("anth.blanchard@gmail.com");
         $user->setPassword('123456');
-        $user->setRoles(['ADMIN','USER']);
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setToken("testtoken");
         $user->setUsername("anthony");
         $manager->persist($user);
@@ -27,7 +27,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user->setEmail("user".$i."@test.com");
             $user->setPassword('123456');
-            $user->setRoles(['USER']);
+            $user->setRoles(['ROLE_USER']);
             $user->setToken("testtoken");
             $user->setUsername("user".$i);
             $manager->persist($user);
