@@ -16,32 +16,26 @@ use Symfony\Component\Finder\Finder;
 
 class ImageFixtures extends Fixture implements DependentFixtureInterface
 {
-    /**
-     * @var string
-     */
-    private $uploadDirAvatar;
 
-    /**
-     * @var string
-     */
-    private $uploadDirTricks;
+    private string $baseImagesDir;
 
-    /**
-     * @var string
-     */
-    private $uploadDirFixtures;
+    private string $uploadDirAvatar;
 
-    /**
-     * @param string $uploadDirAvatar
-     */
-    public function __construct(string $uploadDirAvatar, string $uploadDirTricks,string $uploadDirFixtures)
+    private string $uploadDirTricks;
+
+    private string $uploadDirFixtures;
+
+    private string $baseUploadDirFixture;
+
+    public function __construct(string $baseImagesDir, string $uploadDirAvatar, string $uploadDirTricks,string $uploadDirFixtures)
     {
-        $this->uploadDirAvatar = $uploadDirAvatar;
-        $this->uploadDirTricks = $uploadDirTricks;
+        $this->baseImagesDir = $baseImagesDir;
         $this->uploadDirFixtures = $uploadDirFixtures;
+        $this->baseUploadDirFixture = $baseImagesDir.$uploadDirFixtures;
     }
     public function load(ObjectManager $manager): void
     {
+
         self::CleanFixtureImages();
         $userRepository = $manager->getRepository(User::class);
         $users = $userRepository->findAllUser();
@@ -65,42 +59,68 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
                 $manager->persist($image);
             }
         }
+
+        for($i = 1; $i <= 8; $i++){
+            $image = new Image();
+            $image->setUser(null);
+            $image->setPath(self::createHomeImage('image'.$i));
+            $image->setTrick(null);
+            $manager->persist($image);
+        }
         $manager->flush();
     }
 
     private function createAvatar($username) {
+        $baseUploadDirFixture = $this->baseImagesDir.$this->uploadDirFixtures;
         $filesystem = new Filesystem();
-        if(!$filesystem->exists($this->uploadDirFixtures.'avatar/')){
-            $filesystem->mkdir($this->uploadDirFixtures.'avatar/', 0744);
+        if(!$filesystem->exists($this->baseUploadDirFixture.'avatar/')){
+            $filesystem->mkdir($this->baseUploadDirFixture.'avatar/', 0744);
         }
-        $filesystem->copy($this->uploadDirFixtures.'/originals/avatar.png',$this->uploadDirFixtures.'avatar/'.$username.'.png');
-        return $this->uploadDirAvatar.'/'.$username.'.png';
+        $filesystem->copy($this->baseUploadDirFixture.'originals/avatar.png',$this->baseUploadDirFixture.'avatar/'.$username.'.png');
+        return '/images/uploads/fixtures/avatar/'.$username.'.png';
     }
     private function createtrickImage($trickId,$number) {
         $filesystem = new Filesystem();
-        if(!$filesystem->exists($this->uploadDirFixtures.'tricks/')){
-            $filesystem->mkdir($this->uploadDirFixtures.'tricks/', 0744);
+        if(!$filesystem->exists($this->baseUploadDirFixture.'tricks/')){
+            $filesystem->mkdir($this->baseUploadDirFixture.'tricks/', 0744);
         }
-        $filesystem->copy($this->uploadDirFixtures.'/originals/'.$number.'.png',$this->uploadDirFixtures.'tricks/'.$trickId.'/'.$number.'.png');
-        return $this->uploadDirTricks.'/'.$trickId.'/'.$number.'.png';
+        $filesystem->copy($this->baseUploadDirFixture.'originals/'.$number.'.png',$this->baseUploadDirFixture.'tricks/'.$trickId.'/'.$number.'.png');
+        return '/images/uploads/fixtures/tricks/'.$trickId.'/'.$number.'.png';
+    }
+
+    private function createHomeImage($name) {
+        $filesystem = new Filesystem();
+        if(!$filesystem->exists($this->baseUploadDirFixture.'home/')){
+            $filesystem->mkdir($this->baseUploadDirFixture.'home/', 0744);
+        }
+        $filesystem->copy($this->baseUploadDirFixture.'originals/'.$name.'.png',$this->baseUploadDirFixture.'home/'.$name.'.png');
+        return '/images/uploads/fixtures/home/'.$name.'.png';
     }
 
     private function CleanFixtureImages() {
         $filesystem = new Filesystem();
         $finder = new finder();
         $findAvatarsFiles = [];
+        $findHomeFiles = [];
         $findTricksFolders = [];
-        if($filesystem->exists($this->uploadDirFixtures.'avatar/')){
-            $findAvatarsFiles = $finder->in($this->uploadDirFixtures.'avatar/')->depth(0)->name("*")->sortByName();
+
+        if($filesystem->exists($this->baseUploadDirFixture.'avatar/')){
+            $findAvatarsFiles = $finder->in($this->baseUploadDirFixture.'avatar/')->depth(0)->name("*")->sortByName();
         }
-        if($filesystem->exists($this->uploadDirFixtures.'tricks/')){
-            $findTricksFolders = $finder->in($this->uploadDirFixtures.'tricks/')->sortByName()->getIterator();
+        if($filesystem->exists($this->baseUploadDirFixture.'home/')){
+            $findHomeFiles = $finder->in($this->baseUploadDirFixture.'home/')->depth(0)->name("*")->sortByName();
+        }
+        if($filesystem->exists($this->baseUploadDirFixture.'tricks/')){
+            $findTricksFolders = $finder->in($this->baseUploadDirFixture.'tricks/')->sortByName()->getIterator();
         }
         foreach($findAvatarsFiles as $file) {
-            $filesystem->remove($this->uploadDirFixtures.'avatar/'.$file->getRelativePathname());
+            $filesystem->remove($this->baseUploadDirFixture.'avatar/'.$file->getRelativePathname());
+        }
+        foreach($findHomeFiles as $homeFile) {
+            $filesystem->remove($this->baseUploadDirFixture.'home/'.$homeFile->getRelativePathname());
         }
         foreach($findTricksFolders as $folders) {
-            $filesystem->remove($this->uploadDirFixtures.'tricks/'.$folders->getRelativePathname());
+            $filesystem->remove($this->baseUploadDirFixture.'tricks/'.$folders->getRelativePathname());
         }
     }
 

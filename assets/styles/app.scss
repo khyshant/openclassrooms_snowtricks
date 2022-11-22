@@ -75,6 +75,9 @@ body {
   .div-only-mobile, .see_media{
     display:none;
   }
+  #carouselExampleIndicators,.carousel-inner{
+    max-height: 55vh;
+  }
 }
 @media screen and (max-width : 906px){
   .desk{

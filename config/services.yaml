@@ -4,7 +4,9 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    upload_dir: '%kernel.project_dir%/public/images/uploads'
+
+    base_images_dir: '%kernel.project_dir%/public/'
+    upload_dir: 'images/uploads'
     upload_dir_relative_path: '%upload_dir%'
     upload_dir_avatar_absolute_path: '%upload_dir%/avatar'
     upload_dir_tricks_absolute_path: '%upload_dir%/tricks'
@@ -15,6 +17,7 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
+            $baseImagesDir : '%base_images_dir%'
             $uploadDirAvatar: '%upload_dir_avatar_absolute_path%'
             $uploadDirTricks: '%upload_dir_tricks_absolute_path%'
             $uploadDirFixtures: '%upload_dir_fixtures_absolute_path%'
