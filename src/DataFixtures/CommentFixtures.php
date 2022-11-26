@@ -23,7 +23,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             $user = new User();
             $user->setEmail("commentUser".$i."@test.com");
             $user->setPassword('123456');
-            $user->setRoles(['USER']);
+            $user->setRoles(['ROLE_USER']);
             $user->setToken("testtoken");
             $user->setUsername("commentUser".$i);
             $manager->persist($user);
