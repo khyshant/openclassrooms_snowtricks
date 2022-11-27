@@ -19,15 +19,11 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
 
     private string $baseImagesDir;
 
-    private string $uploadDirAvatar;
-
-    private string $uploadDirTricks;
-
     private string $uploadDirFixtures;
 
     private string $baseUploadDirFixture;
 
-    public function __construct(string $baseImagesDir, string $uploadDirAvatar, string $uploadDirTricks,string $uploadDirFixtures)
+    public function __construct(string $baseImagesDir, string $uploadDirFixtures)
     {
         $this->baseImagesDir = $baseImagesDir;
         $this->uploadDirFixtures = $uploadDirFixtures;
@@ -77,7 +73,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $filesystem->mkdir($this->baseUploadDirFixture.'avatar/', 0744);
         }
         $filesystem->copy($this->baseUploadDirFixture.'originals/avatar.png',$this->baseUploadDirFixture.'avatar/'.$username.'.png');
-        return '/images/uploads/fixtures/avatar/'.$username.'.png';
+        return '/build/images/uploads/fixtures/avatar/'.$username.'.png';
     }
     private function createtrickImage($trickId,$number) {
         $filesystem = new Filesystem();
@@ -85,7 +81,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $filesystem->mkdir($this->baseUploadDirFixture.'tricks/', 0744);
         }
         $filesystem->copy($this->baseUploadDirFixture.'originals/'.$number.'.png',$this->baseUploadDirFixture.'tricks/'.$trickId.'/'.$number.'.png');
-        return '/images/uploads/fixtures/tricks/'.$trickId.'/'.$number.'.png';
+        return '/build/images/uploads/fixtures/tricks/'.$trickId.'/'.$number.'.png';
     }
 
     private function createHomeImage($name) {
@@ -94,7 +90,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $filesystem->mkdir($this->baseUploadDirFixture.'home/', 0744);
         }
         $filesystem->copy($this->baseUploadDirFixture.'originals/'.$name.'.png',$this->baseUploadDirFixture.'home/'.$name.'.png');
-        return '/images/uploads/fixtures/home/'.$name.'.png';
+        return '/build/images/uploads/fixtures/home/'.$name.'.png';
     }
 
     private function CleanFixtureImages() {
