@@ -5,11 +5,8 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
-    base_images_dir: '%kernel.project_dir%/public/'
-    upload_dir: 'build/images/uploads'
-    upload_dir_relative_path: '%upload_dir%'
-    upload_dir_avatar_absolute_path: '%upload_dir%/avatar'
-    upload_dir_tricks_absolute_path: '%upload_dir%/tricks'
+    upload_dir: 'images/uploads'
+    base_images_dir: '%upload_dir%'
     upload_dir_fixtures_absolute_path: '%upload_dir%/fixtures/'
 services:
     # default configuration for services in *this* file
@@ -18,7 +15,7 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $baseImagesDir : '%base_images_dir%'
-            $uploadDirFixtures: '%upload_dir_fixtures_absolute_path%'
+            $uploadDirFixtures: '/build/%upload_dir_fixtures_absolute_path%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

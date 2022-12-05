@@ -19,7 +19,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
 
     private string $baseImagesDir;
 
-    private string $uploadDirFixtures;
+   private string $uploadDirFixtures;
 
     private string $baseUploadDirFixture;
 
@@ -27,7 +27,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     {
         $this->baseImagesDir = $baseImagesDir;
         $this->uploadDirFixtures = $uploadDirFixtures;
-        $this->baseUploadDirFixture = $baseImagesDir.$uploadDirFixtures;
+        $this->baseUploadDirFixture = $uploadDirFixtures;
     }
     public function load(ObjectManager $manager): void
     {
@@ -72,6 +72,9 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         if(!$filesystem->exists($this->baseUploadDirFixture.'avatar/')){
             $filesystem->mkdir($this->baseUploadDirFixture.'avatar/', 0744);
         }
+        dump($this->baseImagesDir);
+        dump($this->baseUploadDirFixture);
+
         $filesystem->copy($this->baseUploadDirFixture.'originals/avatar.png',$this->baseUploadDirFixture.'avatar/'.$username.'.png');
         return '/build/images/uploads/fixtures/avatar/'.$username.'.png';
     }
@@ -80,6 +83,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         if(!$filesystem->exists($this->baseUploadDirFixture.'tricks/')){
             $filesystem->mkdir($this->baseUploadDirFixture.'tricks/', 0744);
         }
+
         $filesystem->copy($this->baseUploadDirFixture.'originals/'.$number.'.png',$this->baseUploadDirFixture.'tricks/'.$trickId.'/'.$number.'.png');
         return '/build/images/uploads/fixtures/tricks/'.$trickId.'/'.$number.'.png';
     }
