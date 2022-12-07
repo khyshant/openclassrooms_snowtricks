@@ -19,7 +19,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
 
     private string $baseImagesDir;
 
-    private string $uploadDirFixtures;
+   private string $uploadDirFixtures;
 
     private string $uploadDirFixturesTrick;
 
@@ -31,9 +31,13 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
     {
         $this->baseImagesDir = $baseImagesDir;
         $this->uploadDirFixtures = $uploadDirFixtures;
+<<<<<<< HEAD
         $this->uploadDirFixturesTrick = $uploadDirFixturesTrick;
         $this->uploadDirFixturesAvatar = $uploadDirFixturesAvatar;
         $this->uploadDirFixturesHome = $uploadDirFixturesHome;
+=======
+        $this->baseUploadDirFixture = $uploadDirFixtures;
+>>>>>>> 30e168abb5b7f1383316b18414b6422864194ccb
     }
     public function load(ObjectManager $manager): void
     {
@@ -77,6 +81,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         if(!$filesystem->exists('public/build/images')){
             $filesystem->mkdir('public/build/images/', 0777);
         }
+<<<<<<< HEAD
         if(!$filesystem->exists('public/build/images/uploads')){
             $filesystem->mkdir('public/build/images/uploads/', 0777);
         }
@@ -91,13 +96,25 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         }
         $filesystem->copy($this->uploadDirFixtures.'originals/avatar.png',$this->uploadDirFixturesAvatar.$username.'.png');
         return $this->uploadDirFixturesAvatar.$username.'.png';
+=======
+        dump($this->baseImagesDir);
+        dump($this->baseUploadDirFixture);
+
+        $filesystem->copy($this->baseUploadDirFixture.'originals/avatar.png',$this->baseUploadDirFixture.'avatar/'.$username.'.png');
+        return '/build/images/uploads/fixtures/avatar/'.$username.'.png';
+>>>>>>> 30e168abb5b7f1383316b18414b6422864194ccb
     }
     private function createtrickImage($trickId,$number) {
         $filesystem = new Filesystem();
         if(!$filesystem->exists($this->uploadDirFixturesTrick)){
             $filesystem->mkdir($this->uploadDirFixturesTrick, 0777);
         }
+<<<<<<< HEAD
         $filesystem->copy($this->uploadDirFixtures.'originals/'.$number.'.png',$this->uploadDirFixturesTrick.$trickId.'/'.$number.'.png');
+=======
+
+        $filesystem->copy($this->baseUploadDirFixture.'originals/'.$number.'.png',$this->baseUploadDirFixture.'tricks/'.$trickId.'/'.$number.'.png');
+>>>>>>> 30e168abb5b7f1383316b18414b6422864194ccb
         return '/build/images/uploads/fixtures/tricks/'.$trickId.'/'.$number.'.png';
     }
 

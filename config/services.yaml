@@ -10,6 +10,12 @@ parameters:
     upload_dir_tricks_absolute_path: 'public/build/images/uploads/fixtures/tricks/'
     upload_dir_home_absolute_path: 'public/build/images/uploads/fixtures/home/'
 
+<<<<<<< HEAD
+=======
+    upload_dir: 'images/uploads'
+    base_images_dir: '%upload_dir%'
+    upload_dir_fixtures_absolute_path: '%upload_dir%/fixtures/'
+>>>>>>> 30e168abb5b7f1383316b18414b6422864194ccb
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -17,10 +23,14 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $baseImagesDir : '%base_images_dir%'
+<<<<<<< HEAD
             $uploadDirFixtures: '%upload_dir_fixtures_absolute_path%'
             $uploadDirFixturesTrick: '%upload_dir_tricks_absolute_path%'
             $uploadDirFixturesAvatar: '%upload_dir_avatar_absolute_path%'
             $uploadDirFixturesHome: '%upload_dir_home_absolute_path%'
+=======
+            $uploadDirFixtures: '/build/%upload_dir_fixtures_absolute_path%'
+>>>>>>> 30e168abb5b7f1383316b18414b6422864194ccb
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
