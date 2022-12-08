@@ -12,9 +12,13 @@
   "dependencies": {
     "@babel/preset-env": "^7.20.2",
     "@hotwired/stimulus": "^3.2.1",
+    "@nuxt/friendly-errors-webpack-plugin": "^2.5.2",
     "@symfony/stimulus-bridge": "^2.1.0",
+    "chalk": "^5.2.0",
     "composer": "^4.1.0",
     "core-js": "^3.26.1",
-    "fixture": "^0.1.2"
+    "fixture": "^0.1.2",
+    "semver": "^7.3.8",
+    "source-map": "^0.7.4"
   }
 }
