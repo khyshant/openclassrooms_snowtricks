@@ -10,7 +10,7 @@ class HomeControllerTest extends WebTestCase
     public function testSomething(): void
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', 'http://opc_6_snowtricks.test/');
+        $client->request('GET', '/');
         $this->assertResponseStatusCodeSame(200);
         $this->assertSelectorTextContains('h1','accroche');
     }
