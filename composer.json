@@ -83,7 +83,11 @@
             "php bin/console d:d:d --if-exists -n --force",
             "php bin/console d:d:c",
             "php bin/console d:s:u -f",
-            "php bin/console d:f:l -n"
+            "php bin/console d:f:l -n",
+            "php bin/console d:d:d --if-exists -n --force --env=test",
+            "php bin/console d:d:c --env=test",
+            "php bin/console d:s:u -f --env=test",
+            "php bin/console d:f:l -n --env=test"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
