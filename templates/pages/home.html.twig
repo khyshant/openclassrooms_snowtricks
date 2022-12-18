@@ -5,8 +5,10 @@
 {% block content %}
     <div id="home_block_container" class="container-fluid">
         {{ block("slider", "parts/home_slider_block.html.twig") }}
+        <div id="tricks">
+            {{ block("fortricks", "parts/fortricks.html.twig") }}
+        </div>
 
-        {{ block("fortricks", "parts/fortricks.html.twig") }}
         <div class="text-right  custom-chevron custom-chevron-up">
             <a href="#tricks"><i class="fas fa-chevron-up fa-2x chevron-down"></i></a>
         </div>
@@ -34,7 +36,6 @@
             }
             left= left+1;
         }
-        console.log(width);
         if(width <= 850){
             $("#media_container").removeClass('container flex desk');
             $("#media_container").addClass('div-only-mobile');

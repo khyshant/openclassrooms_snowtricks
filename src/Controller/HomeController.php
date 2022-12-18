@@ -40,6 +40,7 @@ class HomeController extends AbstractController
         $images = $this->imageRepository->findby(['Trick' => null, 'user' => null ]);
         $tricks = $this->trickRepository->getAllTricks(1);
         return $this->render('pages/home.html.twig', [
+                'page' => '1',
                 'tricks' => $tricks,
                 'images' => $images,
                 'uploadDirFixtures' => $this->uploadDirFixtures,
@@ -58,6 +59,7 @@ class HomeController extends AbstractController
         $tricks = $this->trickRepository->getAllTricks($page);
         return $this->render('parts/fortricks.html.twig', [
                 'tricks' => $tricks,
+                'page' => $page
             ]
         );
     }
