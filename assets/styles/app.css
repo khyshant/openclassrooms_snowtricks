@@ -3,6 +3,10 @@
 body { 
   /* background-color : lightgray; */
 }
+#home_block_container {
+  position : relative
+}
+
 .accroche {
   position : absolute;
   top : 45%;

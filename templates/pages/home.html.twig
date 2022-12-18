@@ -3,28 +3,21 @@
 {% block title %}Snowtricks home{% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+    <div id="home_block_container" class="container-fluid">
         {{ block("slider", "parts/home_slider_block.html.twig") }}
-    </div>
-    <div id="forTricks" class="container mx-auto row my-3 ">
-        {% for trick in tricks  %}
-            <div id="{{ trick.id }}" class=" mb-2 col-sm-6 col-md-4 col-lg-3 trick">
-                <h3 class="text-center trick_title">{{ trick.title }}</h3>
-                {% for  image in trick.images %}
-                    {% if loop.first %}<img src="{{ asset( image.path ) }}" class="card-img-top img_trick" alt="...">{% endif %}
-                {% endfor %}
-                <div class="card-body">
 
-                    {% autoescape %}
-                        {{ trick.description|raw|slice(0,50)}}...
-                    {% endautoescape %}
-                    <a class="float-right" href="" title="voir {{ trick.title }}">Voir plus</a>
-                </div>
+        {{ block("fortricks", "parts/fortricks.html.twig") }}
+        <div class="text-right  custom-chevron custom-chevron-up">
+            <a href="#tricks"><i class="fas fa-chevron-up fa-2x chevron-down"></i></a>
+        </div>
+        <div class="container">
+            <div  class="d-flex justify-content-center">
+                <a href="javascript:void(0)" id="loadMoreTrick"><i class="fas fa-plus-circle fa-3x"></i></a>
+                {#<a href="#" id="loadLessTrick"><i class="fas fa-minus-circle fa-3x"></i></a>#}
             </div>
-        {% endfor %}
-    </div>
+        </div>
 
-</div>
+    </div>
 {% endblock %}
 {% block customJavascripts %}
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

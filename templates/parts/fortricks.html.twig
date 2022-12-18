@@ -1,0 +1,20 @@
+{% block fortricks %}
+<div id="forTricks" class="container mx-auto row my-3 ">
+    {% for trick in tricks  %}
+        <div id="{{ trick.id }}" class=" mb-2 col-sm-6 col-md-4 col-lg-3 trick">
+            <h3 class="text-center trick_title">{{ trick.title }}</h3>
+            {% for  image in trick.images %}
+                {% if loop.first %}<img src="{{ asset( image.path ) }}" class="card-img-top img_trick" alt="...">{% endif %}
+            {% endfor %}
+            <div class="card-body">
+
+                {% autoescape %}
+                    {{ trick.description|raw|slice(0,50)}}...
+                {% endautoescape %}
+                <a class="float-right" href="" title="voir {{ trick.title }}">Voir plus</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
