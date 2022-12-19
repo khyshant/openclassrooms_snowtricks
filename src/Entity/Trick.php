@@ -45,7 +45,7 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'Trick', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'Trick', targetEntity: Image::class, orphanRemoval: true)]
     private Collection $images;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
