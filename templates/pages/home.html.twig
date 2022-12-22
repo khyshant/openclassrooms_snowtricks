@@ -4,9 +4,9 @@
 
 {% block content %}
     <div id="home_block_container" class="container-fluid">
-        {{ block("slider", "parts/home_slider_block.html.twig") }}
+        {{ block("slider", "parts/front/home_slider_block.html.twig") }}
         <div id="tricks">
-            {{ block("fortricks", "parts/fortricks.html.twig") }}
+            {{ block("fortricks", "parts/front/fortricks.html.twig") }}
         </div>
 
         <div class="text-right  custom-chevron custom-chevron-up">
@@ -22,10 +22,7 @@
     </div>
 {% endblock %}
 {% block customJavascripts %}
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
     <script>
         var width = document.body.clientWidth;
         var left = 0;
@@ -36,6 +33,7 @@
             }
             left= left+1;
         }
+        console.log(width);
         if(width <= 850){
             $("#media_container").removeClass('container flex desk');
             $("#media_container").addClass('div-only-mobile');
@@ -59,6 +57,42 @@
             $("body").on("click", ".btn-remove", function () {
                 $($(this).data("target")).remove();
             });
+        });
+        $(document).on('change', '.custom-file-input', function () {
+            let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
+            $(this).parent('.custom-file').find('.custom-file-label').text(fileName);
+        });
+        $( document ).ready(function() {
+            let page = 1;
+            let trick = 0;
+            $('#trick_description').summernote(
+                {
+                    placeholder: 'Saisissez ici votre chapo et mettez le en page',
+                }
+            );
+            $('#trick_metadescription').summernote(
+                {
+                    placeholder: 'Saisissez ici votre contenu et mettez le en page Pas d\'image',
+                }
+            );
+            $("#loadMoreTrick").click(function(){
+                page++;
+                $.ajax({
+                    url : "{{ path('moretricks') }}",
+                    type : 'GET',
+                    data : {'page' : page},
+                    dataType : 'html',
+                    success : function(code_html, statut){
+                        $("#tricks").append(code_html);
+                    },
+
+                    error : function(resultat, statut, erreur){
+                        $("#loadMoreTrick").hide('slow');
+                    },
+                });
+
+            });
+
         });
         function MoveOnCover(imgSrc) {
             document.getElementById('showImg').src = "{{ asset('uploads/') }}"+imgSrc;
