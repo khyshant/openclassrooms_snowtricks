@@ -1,13 +1,52 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Snowtricks Show{% endblock %}
+{% block title %}{{ trick.slug }}{% endblock %}
 
 {% block content %}
     <div id="home_block_container" class="container-fluid">
-            ici le trick
+        <div class="container">
+
+            <img id="showImg" src="{{ asset( trick.images.0.path ) }}" class="card-img-top" alt="...">
+            <h1 class="title-trick">{{ trick.title }}</h1>
+        </div>
+        <button class="see_media btn btn-primary mx-auto" onclick="myFunction()">See medias</button>
+
+        <div id="" class="container d-flex justify-content-center desk">
+            {% for key,image in trick.images  %}
+                <div id="showImg{{ key }}" class=" col-md-2 item m-1 d-flex justify-content-center" onclick="MoveOnCover('{{ image.path }}')">
+                    <img src="{{ asset( image.path ) }}" class="card-img-top trick_item" alt="..."></div >
+            {% endfor %}
+        </div>
+
+        <div class="div-only-mobile">
+            {% for key,image in trick.images  %}
+                <div id="showImg{{ key }}" class="col-sm-12 mb-2 m-1" onclick="MoveOnCover('{{ image.path }}')">
+                    <img src="{{ asset( image.path ) }}" class="card-img-top " alt="..."></div >
+            {% endfor %}
+
+        </div>
+
+
+        <div class="container ">
+            {{ trick.description|raw }}
+            <div class="my-3 row m-0 d-flex justify-content-center">
+                <div class="col-lg-3 col-md-6 bg-secondary text-white text-center m-1">Auteur : {{ trick.author.username }}</div>
+
+                {# <div class="col-lg-3 col-md-6  bg-secondary text-white text-center m-1">Groupe : {{ trick.group.name}}</div> #}
+
+                <div class="col-lg-3 col-md-6  bg-secondary text-white text-center m-1">Créé le : {{ trick.dateAdd|date('Y-m-d') }}</div>
+
+                <div class="col-lg-3 col-md-6  bg-secondary text-white text-center m-1">Dernière modification : {{ trick.dateUpdate|date('Y-m-d') }}</div>
+            </div>
+        </div>
 
     </div>
 {% endblock %}
 {% block customJavascripts %}
+    <script>
+        function MoveOnCover(imgSrc) {
+            document.getElementById('showImg').src = imgSrc;
+        }
+    </script>
 
 {% endblock %}

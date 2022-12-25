@@ -10,7 +10,7 @@
                 {% autoescape %}
                     {{ trick.description|raw|slice(0,50)}}...
                 {% endautoescape %}
-                <a class="float-right" href="" title="voir {{ trick.title }}">Voir plus</a>
+                <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>
             </div>
             <div class="card-footer mt-2 text-right">
                 <a class="mx-1" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a>
