@@ -40,12 +40,21 @@ class TrickController extends AbstractController
      * @param string $uploadDirFixtures
      * @param trickService $trickService
      */
-    public function __construct(TrickRepository $trickRepository, ImageRepository $imageRepository, string $uploadDirFixtures, trickService $trickService)
+    public function __construct(string $uploadDirFixtures, trickService $trickService)
     {
-        $this->trickRepository = $trickRepository;
-        $this->imageRepository = $imageRepository;
         $this->uploadDirFixtures = $uploadDirFixtures;
         $this->trickService = $trickService;
+    }
+
+
+
+    #[Route(path: '/show/{slug}', name: 'trick.show')]
+    public function show( Trick $trick): Response
+    {
+        return $this->render('pages/trick_show.html.twig',[
+                'trick' => $trick
+            ]
+        );
     }
 
     #[Route(path: '/delete/{slug}', name: 'trick.delete')]
