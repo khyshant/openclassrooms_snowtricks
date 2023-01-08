@@ -57,7 +57,7 @@ class HomeController extends AbstractController
             $page = 2;
         }
         $tricks = $this->trickRepository->getAllTricks($page);
-        return $this->render('parts/fortricks.html.twig', [
+        return $this->render('parts/front/fortricks.html.twig', [
                 'tricks' => $tricks,
                 'page' => $page
             ]

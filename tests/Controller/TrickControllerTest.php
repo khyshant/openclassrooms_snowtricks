@@ -24,6 +24,15 @@ class TrickControllerTest extends WebTestCase
             ->getManager();
     }
 
+    public function testShowTrick(): void
+    {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
+        $client->request('GET', '/show/test_1_1');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorTextContains('h1','test TRICK 1');
+    }
+
     public function testDeleteTrick(): void
     {
         $trick = $this->entityManager

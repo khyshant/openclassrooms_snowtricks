@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Comment;
+use App\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -33,34 +35,37 @@ class CommentRepository extends ServiceEntityRepository
     public function remove(Comment $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-
         if ($flush) {
             $this->getEntityManager()->flush();
         }
     }
 
-//    /**
-//     * @return Comment[] Returns an array of Comment objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @param $trick
+     * @param $currentPage
+     * @return array
+     */
+    public function getCommentsByTrick (trick $trick, $currentPage): array
+    {
+        $query = $this->createQueryBuilder("c")
+            ->where('c.trick = :id')
+            ->setParameter('id', $trick->getId())
+            ->orderBy('c.id','DESC');
+        return $this->paginate($query, $currentPage)->getQuery()->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Comment
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @param $sql
+     * @param int $page
+     * @param int $limit
+     * @return Paginator
+     */
+    public function paginate($sql, int $page, int $limit = 4): Paginator
+    {
+        $paginator = new Paginator($sql);
+        $paginator->getQuery()
+            ->setFirstResult($limit * ($page - 1)) // Offset
+            ->setMaxResults($limit);
+        return $paginator;
+    }
 }

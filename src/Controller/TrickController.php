@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Services\commentService;
 use App\Services\trickService;
 use App\Repository\ImageRepository;
 use App\Repository\TrickRepository;
@@ -35,15 +36,15 @@ class TrickController extends AbstractController
     private trickService $trickService;
 
     /**
-     * @param TrickRepository $trickRepository
-     * @param ImageRepository $imageRepository
      * @param string $uploadDirFixtures
      * @param trickService $trickService
+     * @param commentService $commentService
      */
-    public function __construct(string $uploadDirFixtures, trickService $trickService)
+    public function __construct(string $uploadDirFixtures, trickService $trickService, commentService $commentService,)
     {
         $this->uploadDirFixtures = $uploadDirFixtures;
         $this->trickService = $trickService;
+        $this->commentService = $commentService;
     }
 
 
@@ -52,7 +53,8 @@ class TrickController extends AbstractController
     public function show( Trick $trick): Response
     {
         return $this->render('pages/trick_show.html.twig',[
-                'trick' => $trick
+                'trick' => $trick,
+                'displayedComments' => $this->commentService->GetTrickComment($trick,1)
             ]
         );
     }

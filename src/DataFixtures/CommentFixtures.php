@@ -16,7 +16,7 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $manyCommentUsers = rand (2,25);
-        $manyComments = rand (2,10);
+        $manyComments = rand (2,35);
         $trickRepository = $manager->getRepository(Trick::class);
         $tricks = $trickRepository->findAll();
         for($i=1; $i<=$manyCommentUsers; $i++){
@@ -33,11 +33,11 @@ class CommentFixtures extends Fixture implements DependentFixtureInterface
             for($i = 1 ; $i <= $manyComments ; $i++){
                 $userRepository = $manager->getRepository(User::class);
                 $userNumber = rand(1,$manyCommentUsers);
-                $user = $userRepository->findByUsername("commentUser".$userNumber);
+                $user = $userRepository->findOneBy(['username'=>"commentUser".$userNumber]);
                 $comment = new Comment();
-                $comment->setAuthor($user[0]);
+                $comment->setAuthor($user);
                 $comment->setTrick($trick);
-                $comment->setComment("commentaire trick ".$trick->getId()." user ".$user[0]->getId());
+                $comment->setComment("commentaire trick ".$trick->getId()." user ".$user->getId());
                 $manager->persist($comment);
             }
         }
