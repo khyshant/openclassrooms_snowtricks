@@ -26,7 +26,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
             for($i=1; $i<=$manyTricks; $i++){
                 $group = $GroupTrickRepository->find(rand(1,$countGroup));
                 $trick = new Trick();
-                $trick->setTitle("test");
+                $trick->setTitle("test TRICK ".$i  );
                 $trick->setDescription("test description");
                 $trick->setMetaDescription("test metat desc");
                 $trick->setAuthor($user);
