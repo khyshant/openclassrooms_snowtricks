@@ -41,9 +41,9 @@
         </div>
         <div id="forComments" class="container mx-auto row my-3 ">
             {% for commentArray in displayedComments  %}
-                <div class=" col-sm-12 d-flex mb-1">
-                    <div class="col-sm-6 col-md-1 p-0 p-md-1">
-                        <img src="{{ asset(commentArray.avatar.path) }} " class="col-xl-12 p-1" alt="...">
+                <div class=" col-sm-12 d-flex mb-1 comment">
+                    <div class="col-sm-1 p-1">
+                        <img src="{{ asset(commentArray.avatar.path) }} " class="col-12" alt="...">
                     </div>
                     <div class="col-sm-6 col-md-2">{{ commentArray.author.username }}</div>
                     <div class="col-sm-12 col-md-7">{{ commentArray.comment.comment }}</div>

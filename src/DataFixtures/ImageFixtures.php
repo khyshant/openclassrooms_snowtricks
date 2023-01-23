@@ -90,7 +90,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
             $filesystem->mkdir($this->uploadDirFixturesAvatar, 0777);
         }
         $filesystem->copy($this->uploadDirFixtures.'originals/avatar.png',$this->uploadDirFixturesAvatar.$username.'.png');
-        return $this->uploadDirFixturesAvatar.$username.'.png';
+        return '/build/images/uploads/fixtures/avatar/'.$username.'.png';
     }
     private function createtrickImage($trickId,$number) {
         $filesystem = new Filesystem();
@@ -142,6 +142,7 @@ class ImageFixtures extends Fixture implements DependentFixtureInterface
         return [
             UserFixtures::class,
             TrickFixtures::class,
+            CommentFixtures::class
         ];
     }
 }

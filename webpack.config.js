@@ -39,7 +39,11 @@ Encore
      * list of features, see:
      * https://symfony.com/doc/current/frontend.html#adding-more-features
      */
-    .cleanupOutputBeforeBuild()
+    .cleanupOutputBeforeBuild(['css/*', 'js/*', 'entrypoints.json', 'manifest.js', 'manifest.json'], (options) => {
+        options.verbose = true;
+        options.exclude = ['public/build/images/*'];
+        return options;
+    })
     .enableBuildNotifications()
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)

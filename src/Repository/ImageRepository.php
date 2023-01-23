@@ -44,7 +44,7 @@ class ImageRepository extends ServiceEntityRepository
     public function findAvatarByUser($value): ?Image
     {
         return $this->createQueryBuilder('u')
-            ->andWhere('u.id = :val')
+            ->andWhere('u.user = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

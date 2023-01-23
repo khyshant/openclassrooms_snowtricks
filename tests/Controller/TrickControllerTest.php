@@ -53,5 +53,15 @@ class TrickControllerTest extends WebTestCase
         ;
         $this->assertNull($trick);
     }
+
+
+    public function testShowComment(): void
+    {
+        self::ensureKernelShutdown();
+        $client = static::createClient();
+        $client->request('GET', '/show/test_1_1');
+        $this->assertResponseStatusCodeSame(200);
+        $this->assertSelectorTextContains('.comment','commentaire trick 1');
+    }
 }
 
