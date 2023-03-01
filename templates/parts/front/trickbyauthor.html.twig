@@ -1,19 +1,21 @@
-{% block fortricks %}
-<div id="forTricks_{{ page }}" class="container mx-auto row my-3 ">
+{% block trickbyauthor %}
+<div id="forTricks_{{ page }}" class="container mx-auto row border-info border-1 my-3 ">
     {% for trick in tricks  %}
-        <div id="tricks_{{ trick.id }}" class=" mb-2 col-sm-6 col-md-4 col-lg-3 trick">
-            <h3 class="text-center trick_title">{{ trick.slug }}</h3>
+        <div id="tricks_{{ trick.id }}" class=" mb-2 row trick">
+            <h3 class="text-center col-sm-3">{{ trick.slug }}</h3>
+
             {% for  image in trick.images %}
-                {% if loop.first %}<img src="{{ asset( image.path ) }}" class="card-img-top img_trick" alt="...">{% endif %}
+                {% if loop.first %}<img src="{{ asset( image.path ) }}" class="col-sm-2" alt="...">{% endif %}
             {% endfor %}
-            <div class="card-body">
+
+            <div class="col-sm-5">
                 {% autoescape %}
                     {{ trick.description|raw|slice(0,50)}}...
                 {% endautoescape %}
                 <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>
             </div>
             {% if is_granted('edit',trick) %}
-                <div class="card-footer mt-2 text-right">
+                <div class=" text-right col-sm-2">
                     <a class="mx-1" href="{# {{ path('trick_update',{id: trick.id}) }} #}"><i class="fa fa-pen" aria-hidden="true"></i>
                     </a>
                     <a class="mx-1" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i>

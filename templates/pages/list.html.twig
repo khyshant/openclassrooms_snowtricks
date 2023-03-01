@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes Tricks{% endblock %}
+
+{% block content %}
+    <div id="home_block_container" class="container-fluid">
+        <div id="tricks">
+            {{ block("trickbyauthor", "parts/front/trickbyauthor.html.twig") }}
+        </div>
+
+        <div class="text-right  custom-chevron custom-chevron-up">
+            <a href="#tricks"><i class="fas fa-chevron-up fa-2x chevron-down"></i></a>
+        </div>
+        <div class="container">
+            <div  class="d-flex justify-content-center">
+                <a href="javascript:void(0)" id="loadMoreTrick"><i class="fas fa-plus-circle fa-3x"></i></a>
+                {#<a href="#" id="loadLessTrick"><i class="fas fa-minus-circle fa-3x"></i></a>#}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block customJavascripts %}
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+    <script>
+        $( document ).ready(function() {
+            let page = 1;
+            $("#loadMoreTrick").click(function(){
+                page++;
+                $.ajax({
+                    url : "{{ path('moretricksByUser') }}",
+                    type : 'GET',
+                    data : {'page' : page},
+                    dataType : 'html',
+                    success : function(code_html, statut){
+                        $("#tricks").append(code_html);
+                    },
+
+                    error : function(resultat, statut, erreur){
+                        $("#loadMoreTrickByAuthor").hide('slow');
+                    },
+                });
+
+            });
+
+        });
+    </script>
+{% endblock %}
