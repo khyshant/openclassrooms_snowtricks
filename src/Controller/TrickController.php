@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 class TrickController extends AbstractController
 {
     /**
@@ -41,7 +42,7 @@ class TrickController extends AbstractController
     }
 
     #[Route(path: '/show/{slug}', name: 'trick.show')]
-    public function show( Trick $trick): Response
+    public function show( Request $request, Trick $trick): Response
     {
         return $this->render('pages/trick_show.html.twig',[
                 'trick' => $trick,
@@ -50,17 +51,17 @@ class TrickController extends AbstractController
         );
     }
 
-    #[Route(path: '/delete/{slug}', name: 'trick.delete')]
-    public function delete( Trick $trick): Response
+    #[Route(path: '/delete/{id}', name: 'trick.delete')]
+    public function delete( Request $request, Trick $trick): Response
     {
         $this->trickService->deleteTrick($trick);
         return $this->redirectToRoute('home');
+
     }
 
     #[Route(path: '/list/', name: 'trick.list')]
     public function list(): Response
     {
-
         $tricks = $this->trickService->getTricksByAuthor(1,$this->getUser());
         //TODO transformer en trick service
         return $this->render('pages/list.html.twig', [

@@ -48,7 +48,6 @@ class HomeController extends AbstractController
     #[Route(path: '/moretricks', name: 'moretricks')]
     public function moreTrick(Request $request): Response
     {
-        dump($request);
         $page = $request->query->getInt("page");
         if($page <= 1){
             $page = 2;

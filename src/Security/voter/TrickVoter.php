@@ -12,17 +12,20 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class TrickVoter extends Voter
 {
     public const EDIT = 'edit';
+    public const DELETE = 'delete';
 
     /**
      * @inheritDoc
      */
     protected function supports(string $attribute, mixed $subject) : bool
     {
-        if (!$subject instanceof Trick) {
+// if the attribute isn't one we support, return false
+        if (!in_array($attribute, [self::EDIT, self::DELETE])) {
             return false;
         }
 
-        if (!in_array($attribute, [self::EDIT])) {
+        // only vote on `Post` objects
+        if (!$subject instanceof Trick) {
             return false;
         }
 
@@ -37,13 +40,41 @@ class TrickVoter extends Voter
      */
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token) : bool
     {
-        /** @var User $user */
         $user = $token->getUser();
 
-        switch ($attribute) {
-            case self::EDIT:
-                return $user === $subject->getAuthor();
-                break;
+        if (!$user instanceof User) {
+            // the user must be logged in; if not, deny access
+            return false;
         }
+
+        // you know $subject is a Post object, thanks to `supports()`
+        /** @var Trick $trick */
+        $trick = $subject;
+
+        return match($attribute) {
+            self::DELETE => $this->canDelete($trick, $user),
+            self::EDIT => $this->canEdit($trick, $user),
+
+            default => throw new \LogicException("Vous n'avez pas l'autorisation de voir ceci")
+        };
     }
+
+    private function canEdit(Trick $trick, User $user): bool
+    {
+        return $user === $trick->getAuthor();
+    }
+
+    private function canDelete(Trick $trick, User $user): bool
+    {
+        $role = "ROLE_ADMIN";
+        $return = false;
+        if (in_array($role, $user->getRoles())) {
+            $return =  true;
+        }
+        if ($user === $trick->getAuthor()) {
+            $return = true;
+        }
+        return $return;
+    }
+
 }

@@ -1,9 +1,8 @@
 {% block trickbyauthor %}
-<div id="forTricks_{{ page }}" class="container mx-auto row border-info border-1 my-3 ">
-    {% for trick in tricks  %}
-        <div id="tricks_{{ trick.id }}" class=" mb-2 row trick">
-            <h3 class="text-center col-sm-3">{{ trick.slug }}</h3>
 
+    {% for trick in tricks  %}
+        <div class=" mb-2 row trick">
+            <h3 class="text-center col-sm-3">{{ trick.title }}</h3>
             {% for  image in trick.images %}
                 {% if loop.first %}<img src="{{ asset( image.path ) }}" class="col-sm-2" alt="...">{% endif %}
             {% endfor %}
@@ -12,19 +11,22 @@
                 {% autoescape %}
                     {{ trick.description|raw|slice(0,50)}}...
                 {% endautoescape %}
-                <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>
             </div>
             {% if is_granted('edit',trick) %}
-                <div class=" text-right col-sm-2">
-                    <a class="mx-1" href="{# {{ path('trick_update',{id: trick.id}) }} #}"><i class="fa fa-pen" aria-hidden="true"></i>
+                <div class=" text-right col-sm-1">
+                    <a class="mx-1 text-warning" href="{# {{ path('trick_update',{slug: trick.slug}) }} #}"><i class="fa fa-pen" aria-hidden="true"></i>
                     </a>
-                    <a class="mx-1" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i>
+                    <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>
+                </div>
+            {% endif %}
+            {% if is_granted('delete',trick) %}
+                <div class=" text-right col-sm-1">
+                    <a class="mx-1 text-danger" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal_{{ trick.id }}" ><i class="fa fa-trash" aria-hidden="true"></i>
                     </a>
-
                 </div>
             {% endif %}
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="deleteModal_{{ trick.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal_{{ trick.id }}" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -34,13 +36,13 @@
                             </button>
                         </div>
                         <div class="modal-footer">
-                            <a class="mx-1 btn btn-danger" href="{{ path('trick.delete',{slug: trick.slug}) }}">YES</a>
+                            <a class="mx-1 btn btn-danger" href="{{ path('trick.delete',{id: trick.id}) }}">YES</a>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
     {% endfor %}
-</div>
 
 {% endblock %}
