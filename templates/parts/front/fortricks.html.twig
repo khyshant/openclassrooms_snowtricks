@@ -12,9 +12,6 @@
                 {% endautoescape %}
                 <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>
             </div>
-            <div class="card-footer mt-2 text-right">
-                <a class="mx-1" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-trash" aria-hidden="true"></i></a>
-            </div>
             <!-- Modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -26,7 +23,7 @@
                             </button>
                         </div>
                         <div class="modal-footer">
-                            <a class="mx-1 btn btn-danger" href="{{ path('trick.delete',{slug: trick.slug}) }}">YES</a>
+                            <a class="mx-1 btn btn-danger" href="{{ path('trick.delete',{id: trick.id}) }}">YES</a>
                         </div>
                     </div>
                 </div>

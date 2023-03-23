@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -42,10 +43,19 @@ class TrickRepository extends ServiceEntityRepository
 
     public function getAllTricks(int $currentPage) : Paginator
     {
-        // Create our query
         $query = $this->createQueryBuilder('t')
             ->getQuery();
         return $this->paginate($query, $currentPage);
+    }
+
+
+    public function getTricksByAuthor(int $currentPage, User $author, int $limit = 10) : Paginator
+    {
+        $query = $this->createQueryBuilder("t")
+            ->where('t.author = :id')
+            ->setParameter('id', $author->getId())
+            ->orderBy('t.id','asc');
+        return $this->paginate($query, $currentPage, $limit);
     }
 
     public function paginate($sql,int $page,int $limit = 4) : Paginator
