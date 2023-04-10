@@ -7,13 +7,13 @@
                 {% if loop.first %}<img src="{{ asset( image.path ) }}" class="col-sm-2" alt="...">{% endif %}
             {% endfor %}
 
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 {% autoescape %}
                     {{ trick.description|raw|slice(0,50)}}...
                 {% endautoescape %}
             </div>
             {% if is_granted('edit',trick) %}
-                <div class=" text-right col-sm-1">
+                <div class=" text-right col-sm-2">
                     <a class="mx-1 text-warning" href="{# {{ path('trick_update',{slug: trick.slug}) }} #}"><i class="fa fa-pen" aria-hidden="true"></i>
                     </a>
                     <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>

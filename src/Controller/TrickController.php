@@ -42,7 +42,7 @@ class TrickController extends AbstractController
     }
 
     #[Route(path: '/show/{slug}', name: 'trick.show')]
-    public function show( Request $request, Trick $trick): Response
+    public function show( Trick $trick): Response
     {
         return $this->render('pages/trick_show.html.twig',[
                 'trick' => $trick,
@@ -52,12 +52,12 @@ class TrickController extends AbstractController
     }
 
     #[Route(path: '/delete/{id}', name: 'trick.delete')]
-    public function delete( Request $request, Trick $trick): Response
+    public function delete(Trick $trick): Response
     {
         $this->trickService->deleteTrick($trick);
-        return $this->redirectToRoute('home');
+        return $this->redirectToRoute('trick.list');
 
-    }
+    } 
 
     #[Route(path: '/list/', name: 'trick.list')]
     public function list(): Response

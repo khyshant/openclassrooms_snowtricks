@@ -22,11 +22,11 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $groups = $GroupTrickRepository->findAll();
         $countGroup  = count($groups);
         foreach($users as $user){
-            $manyTricks = rand(5,25);
+            $manyTricks = rand(5,50);
             for($i=1; $i<=$manyTricks; $i++){
                 $group = $GroupTrickRepository->find(rand(1,$countGroup));
                 $trick = new Trick();
-                $trick->setTitle("test TRICK ".$i  );
+                $trick->setTitle("test TRICK ".$user->getId()."--".$i  );
                 $trick->setDescription("test description");
                 $trick->setMetaDescription("test metat desc");
                 $trick->setAuthor($user);
