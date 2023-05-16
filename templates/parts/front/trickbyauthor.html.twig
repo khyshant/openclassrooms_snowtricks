@@ -14,7 +14,7 @@
             </div>
             {% if is_granted('edit',trick) %}
                 <div class=" text-right col-sm-2">
-                    <a class="mx-1 text-warning" href="{# {{ path('trick_update',{slug: trick.slug}) }} #}"><i class="fa fa-pen" aria-hidden="true"></i>
+                    <a class="mx-1 text-warning" href=" {{ path('trick.update',{id: trick.id}) }} "><i class="fa fa-pen" aria-hidden="true"></i>
                     </a>
                     <a class="float-right" href="{{ path('trick.show',{slug: trick.slug}) }}" title="voir {{ trick.title }}">Voir plus</a>
                 </div>
