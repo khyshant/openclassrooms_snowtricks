@@ -94,7 +94,7 @@ class TrickController extends AbstractController
     {
         $this->denyAccessUnlessGranted(TrickVoter::EDIT, $trick);
         if($handler->handle($request, $trick)) {
-            return $this->redirectToRoute("trick_update",array('id' => $trick->getId()));
+            return $this->redirectToRoute("trick.update",array('id' => $trick->getId()));
         }
         return $this->render("pages/trick_update.html.twig", [
             "trick" => $trick,

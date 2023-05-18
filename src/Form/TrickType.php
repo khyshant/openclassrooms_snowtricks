@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +26,20 @@ class TrickType extends AbstractType
             ->add('metaTitle', TextType::class)
             ->add('metaDescription', TextareaType::class)
             ->add('valid', CheckboxType::class)
-            //->add('groupTrick', EntityType::class)
+            ->add('GroupTrick', EntityType::class, [
+
+                'mapped' =>true,
+                'class' => GroupTrick::class,
+                // uses the User.username property as the visible option string
+                'choice_label' => 'name',
+                'multiple' => false,
+                'expanded' => false,])
+            ->add("images", CollectionType::class, [
+                "entry_type" => ImageType::class,
+                "allow_add" => true,
+                "allow_delete" => true,
+                "by_reference" => false
+            ])
         ;
     }
 

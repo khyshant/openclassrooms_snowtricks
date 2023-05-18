@@ -3,50 +3,60 @@
 {% block title %}{{ trick.slug }}{% endblock %}
 
 {% block content %}
-    <div id="home_block_container" class="container-fluid">
-        <div class="container">
 
-            <img id="showImg" src="{{ asset( trick.images.0.path ) }}" class="card-img-top" alt="...">
-            <h1 class="title-trick">{{ trick.title }}</h1>
+    <div class="row">
+    <div class="container">
+        <h3>Modifier un article</h3>
+        {{ form_start(form) }}
+        {{ form_widget(form._token) }}
+        <div class="form-group">
+            {{ include("parts/form/_form_update.html.twig", { form: form }) }}
         </div>
-        <button class="see_media btn btn-primary mx-auto" onclick="myFunction()">See medias</button>
-
-        <div id="" class="container d-flex justify-content-center desk">
-            {% for key,image in trick.images  %}
-                <div id="showImg{{ key }}" class=" col-md-2 item m-1 d-flex justify-content-center" onclick="MoveOnCover('{{ image.path }}')">
-                    <img src="{{ asset( image.path ) }}" class="card-img-top trick_item" alt="..."></div >
-            {% endfor %}
+        <div class="">
+            <button class="btn btn-block btn-lg btn-primary">Modifier</button>
         </div>
-
-        <div class="div-only-mobile">
-            {% for key,image in trick.images  %}
-                <div id="showImg{{ key }}" class="col-sm-12 mb-2 m-1" onclick="MoveOnCover('{{ image.path }}')">
-                    <img src="{{ asset( image.path ) }}" class="card-img-top " alt="..."></div >
-            {% endfor %}
-
-        </div>
-
-
-        <div class="container ">
-            {{ trick.description|raw }}
-            <div class="my-3 row m-0 d-flex justify-content-center">
-                <div class="col-lg-3 col-md-6 bg-secondary text-white text-center m-1">Auteur : {{ trick.author.username }}</div>
-
-                {# <div class="col-lg-3 col-md-6  bg-secondary text-white text-center m-1">Groupe : {{ trick.group.name}}</div> #}
-
-                <div class="col-lg-3 col-md-6  bg-secondary text-white text-center m-1">Créé le : {{ trick.dateAdd|date('Y-m-d') }}</div>
-
-                <div class="col-lg-3 col-md-6  bg-secondary text-white text-center m-1">Dernière modification : {{ trick.dateUpdate|date('Y-m-d') }}</div>
-            </div>
-        </div>
-        {{ form(form) }}
+        {{ form_end(form, { render_rest: false }) }}
     </div>
-{% endblock %}
-{% block customJavascripts %}
-    <script>
-        function MoveOnCover(imgSrc) {
-            document.getElementById('showImg').src = imgSrc;
-        }
-    </script>
 
+{% endblock %}
+
+{% block customJavascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote-bs4.js"></script>
+    <script>
+        $(function() {
+            $(".btn-add").on("click", function () {
+                var placeholder = $($(this).data("target"));
+                var prototype = placeholder.data("prototype");
+                var index = placeholder.data("index");
+
+                placeholder.append(prototype.replace(/__name__/g, index));
+
+                index++;
+
+                placeholder.data("index", index);
+            });
+
+            $("body").on("click", ".btn-remove", function () {
+                $($(this).data("target")).remove();
+            });
+        });
+        $(document).on('change', '.custom-file-input', function () {
+            let fileName = $(this).val().replace(/\\/g, '/').replace(/.*\//, '');
+            $(this).parent('.custom-file').find('.custom-file-label').text(fileName);
+        });
+
+                $( document ).ready(function() {
+            let page = 1;
+            let trick = 0;
+            $('#trick_description').summernote(
+                {
+                    placeholder: 'Saisissez ici votre chapo et mettez le en page',
+                }
+            );
+            $('#trick_metadescription').summernote(
+                {
+                    placeholder: 'Saisissez ici votre contenu et mettez le en page Pas d\'image',
+                }
+            )})
+    </script>
 {% endblock %}

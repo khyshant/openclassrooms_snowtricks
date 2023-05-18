@@ -1,0 +1,15 @@
+<div id="image-{{ form.vars.name }}"  class="card col-sm-6 col-md-3 m-1 text-center pt-2 item" >
+    {% if form.vars.value is null %}
+        {{ form_row(form.uploadedFile) }}
+    {% else %}
+    <div class="mb-2 col-md-6 col-l-3 ">
+        <img src="{{ asset(form.vars.value.path ) }}" class="mx-auto d-block img-responsive img_uploaded" />
+    </div>
+    <div class="d-none ">
+        {{ form_row(form.uploadedFile) }}
+    </div>
+    {% endif %}
+    <button class="btn btn-danger btn-sm btn-remove mb-2" type="button" data-target="#image-{{ form.vars.name }}">
+        Supprimer
+    </button>
+</div>
