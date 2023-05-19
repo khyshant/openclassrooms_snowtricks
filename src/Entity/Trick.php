@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 #[ORM\Table(name: 'trick')]
@@ -18,6 +19,8 @@ class Trick
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Le titre ne peut pas être vide')]
+    #[Assert\Length(min: 5, minMessage: 'Le titre doit faire minimum 5 caractère', max: 70, maxMessage: 'le titre ne doit pas faire plus de 70 caractère')]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]

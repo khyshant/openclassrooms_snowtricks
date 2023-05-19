@@ -27,10 +27,8 @@ class TrickType extends AbstractType
             ->add('metaDescription', TextareaType::class)
             ->add('valid', CheckboxType::class)
             ->add('GroupTrick', EntityType::class, [
-
                 'mapped' =>true,
                 'class' => GroupTrick::class,
-                // uses the User.username property as the visible option string
                 'choice_label' => 'name',
                 'multiple' => false,
                 'expanded' => false,])
