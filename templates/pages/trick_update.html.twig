@@ -10,7 +10,9 @@
         {{ form_start(form) }}
         {{ form_widget(form._token) }}
         <div class="form-group">
-            {{ include("parts/form/_form_update.html.twig", { form: form }) }}
+            <div class="container">
+                {{ include("parts/form/_form_update.html.twig", { form: form }) }}
+            </div>
         </div>
         <div class="">
             <button class="btn btn-block btn-lg btn-primary">Modifier</button>

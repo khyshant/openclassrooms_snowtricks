@@ -5,10 +5,10 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
     base_images_dir: '%kernel.project_dir%/public/images/uploads'
-    upload_dir_fixtures_absolute_path: '%base_images_dir%/fixtures/'
-    upload_dir_avatar_absolute_path: 'build/images/uploads/fixtures/avatar/'
-    upload_dir_tricks_absolute_path: 'build/images/uploads/fixtures/tricks/'
-    upload_dir_home_absolute_path: 'build/images/uploads/fixtures/home/'
+    upload_dir_absolute_path: '%base_images_dir%/'
+    upload_dir_avatar_absolute_path: '%kernel.project_dir%/public/public/build/images/uploads/avatar/'
+    upload_dir_tricks_absolute_path: '%kernel.project_dir%/public/build/images/uploads/tricks/'
+    upload_dir_home_absolute_path: '%kernel.project_dir%/public/build/images/uploads/home/'
 
 services:
     # default configuration for services in *this* file
@@ -17,10 +17,10 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $baseImagesDir : '%base_images_dir%'
-            $uploadDirFixtures: '%upload_dir_fixtures_absolute_path%'
-            $uploadDirFixturesTrick: '%upload_dir_tricks_absolute_path%'
-            $uploadDirFixturesAvatar: '%upload_dir_avatar_absolute_path%'
-            $uploadDirFixturesHome: '%upload_dir_home_absolute_path%'
+            $uploadDir: '%upload_dir_absolute_path%'
+            $uploadDirTrick: '%upload_dir_tricks_absolute_path%'
+            $uploadDirAvatar: '%upload_dir_avatar_absolute_path%'
+            $uploadDirHome: '%upload_dir_home_absolute_path%'
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

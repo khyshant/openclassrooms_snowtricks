@@ -12,20 +12,21 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ImageListener
 {
+
+    private RequestStack $requestStack;
     /**
      * @var string
      */
-    private $uploadDirFixturesTrick;
-    private RequestStack $requestStack;
+    private string $uploadDirTrick;
 
     /**
      * ImageListener constructor.
-     * @param string $uploadDirFixturesTrick
+     * @param string $uploadDirTrick
      * @param RequestStack $requestStack
      */
-    public function __construct(string $uploadDirFixturesTrick, RequestStack $requestStack)
+    public function __construct(string $uploadDirTrick, RequestStack $requestStack)
     {
-        $this->uploadDirFixturesTrick = $uploadDirFixturesTrick;
+        $this->uploadDirTrick = $uploadDirTrick;
         $this->requestStack = $requestStack;
     }
 
@@ -41,10 +42,10 @@ class ImageListener
         //dump($this->requestStack->getMainRequest()->files->);
         $filename = md5(uniqid("", true)) . "." . $image->getUploadedFile()->guessExtension();
         $filesystem = new Filesystem();
-        if(!$filesystem->exists($this->uploadDirFixturesTrick.$this->requestStack->getMainRequest()->attributes->get('id'))){
-            $filesystem->mkdir($this->uploadDirFixturesTrick.$this->requestStack->getMainRequest()->attributes->get('id'), 0777);
+        if(!$filesystem->exists($this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id'))){
+            $filesystem->mkdir($this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id'), 0777);
         }
-        $filesystem->copy($image->getUploadedFile(),$this->uploadDirFixturesTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
-        $image->setPath($this->uploadDirFixturesTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
+        $filesystem->copy($image->getUploadedFile(),$this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
+        $image->setPath($this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
     }
 }

@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,11 +22,17 @@ class TrickType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('slug', TextType::class)
             ->add('description', TextareaType::class)
             ->add('metaTitle', TextType::class)
             ->add('metaDescription', TextareaType::class)
-            ->add('valid', CheckboxType::class)
+            ->add('valid', ChoiceType::class, [
+                'choices' => array(
+                    'Oui' => '1',
+                    'Non' => '0'
+                ),
+                'label' => 'Publié',
+                'required' => true,
+            ])
             ->add('GroupTrick', EntityType::class, [
                 'mapped' =>true,
                 'class' => GroupTrick::class,
