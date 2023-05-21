@@ -34,8 +34,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
                 $trick->setDateUpdate("1970-01-01 00:00:02");
                 $trick->setMetaTitle("metaTitle");
                 $trick->setGroupTrick($group);
-                $trick->setSlug("test_".$user->getId()."_".$i);
-                $trick->setValid(false) ;
+                $trick->setValid(rand(0,1)) ;
                 $manager->persist($trick);
             }
         }

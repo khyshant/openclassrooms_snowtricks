@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Trick;
+use App\Handler\TrickHandler;
+use App\Security\voter\TrickVoter;
 use App\Services\commentService;
 use App\Services\TrickService;
 use App\Repository\ImageRepository;
@@ -85,5 +87,19 @@ class TrickController extends AbstractController
                 'page' => $page
             ]
         );
+    }
+
+    #[Route(path: '/update/{id}', name: 'trick.update')]
+    public function update(Request $request, Trick $trick,TrickHandler $handler): Response
+    {
+        $this->denyAccessUnlessGranted(TrickVoter::EDIT, $trick);
+        if($handler->handle($request, $trick)) {
+            return $this->redirectToRoute("trick.update",array('id' => $trick->getId()));
+        }
+        return $this->render("pages/trick_update.html.twig", [
+            "trick" => $trick,
+            "form" => $handler->createView(),
+            "image_header" =>  $trick->getImages()->first()
+        ]);
     }
 }

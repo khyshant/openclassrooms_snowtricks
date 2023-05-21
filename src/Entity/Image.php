@@ -2,12 +2,15 @@
 
 namespace App\Entity;
 
+use App\EntityListener\ImageListener;
 use App\Repository\ImageRepository;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[ORM\Table(name: 'image')]
+#[ORM\EntityListeners([ImageListener::class])]
 class Image
 {
     #[ORM\Id]
@@ -18,7 +21,14 @@ class Image
     #[ORM\Column(length: 255)]
     private ?string $path = null;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
+    /**
+     * @var UploadedFile|null
+     * @Assert\Image
+     * @Assert\NotNull(groups={"add"})
+     */
+    private $uploadedFile;
+
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'], inversedBy: 'images')]
     private ?Trick $Trick = null;
 
     #[ORM\OneToOne(inversedBy: 'image', cascade: ['persist', 'remove'])]
@@ -40,6 +50,22 @@ class Image
         $this->path = $path;
 
         return $this;
+    }
+
+    /**
+     * @return null|UploadedFile
+     */
+    public function getUploadedFile(): ?UploadedFile
+    {
+        return $this->uploadedFile;
+    }
+
+    /**
+     * @param null|UploadedFile $uploadedFile
+     */
+    public function setUploadedFile(?UploadedFile $uploadedFile): void
+    {
+        $this->uploadedFile = $uploadedFile;
     }
 
     public function getTrick(): ?Trick
@@ -65,6 +91,7 @@ class Image
 
         return $this;
     }
+
 
 
 }
