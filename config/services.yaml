@@ -6,7 +6,7 @@
 parameters:
     base_images_dir: '%kernel.project_dir%/public/images/uploads'
     upload_dir_absolute_path: '%base_images_dir%/'
-    upload_dir_avatar_absolute_path: '%kernel.project_dir%/public/public/build/images/uploads/avatar/'
+    upload_dir_avatar_absolute_path: '%kernel.project_dir%/public/build/images/uploads/avatar/'
     upload_dir_tricks_absolute_path: '%kernel.project_dir%/public/build/images/uploads/tricks/'
     upload_dir_home_absolute_path: '%kernel.project_dir%/public/build/images/uploads/home/'
 
