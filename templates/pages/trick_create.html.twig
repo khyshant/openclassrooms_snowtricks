@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ trick.slug }}{% endblock %}
+{% block title %}Créer votre trick{% endblock %}
 
 {% block content %}
 
@@ -11,7 +11,7 @@
         {{ form_widget(form._token) }}
         <div class="form-group">
             <div class="container">
-                {{ include("parts/form/_form_update_trick.html.twig", { form: form }) }}
+                {{ include("parts/form/_form_create_trick.html.twig", { form: form }) }}
             </div>
         </div>
         <div class="">

@@ -22,7 +22,7 @@ class TrickFixtures extends Fixture implements DependentFixtureInterface
         $groups = $GroupTrickRepository->findAll();
         $countGroup  = count($groups);
         foreach($users as $user){
-            $manyTricks = rand(5,50);
+            $manyTricks = rand(5,10);
             for($i=1; $i<=$manyTricks; $i++){
                 $group = $GroupTrickRepository->find(rand(1,$countGroup));
                 $trick = new Trick();

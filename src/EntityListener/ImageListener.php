@@ -39,13 +39,14 @@ class ImageListener
         if ($image->getUploadedFile() === null) {
             return;
         }
-        //dump($this->requestStack->getMainRequest()->files->);
+        dump($this->requestStack->getMainRequest()->files);
         $filename = md5(uniqid("", true)) . "." . $image->getUploadedFile()->guessExtension();
         $filesystem = new Filesystem();
         if(!$filesystem->exists($this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id'))){
             $filesystem->mkdir($this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id'), 0777);
         }
-        $filesystem->copy($image->getUploadedFile(),$this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
-        $image->setPath($this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
+        dump($filesystem->copy($image->getUploadedFile(),$this->uploadDirTrick.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename));
+        
+        $image->setPath('/build/images/uploads/tricks/'.$this->requestStack->getMainRequest()->attributes->get('id').'/'.$filename);
     }
 }

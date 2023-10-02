@@ -43,7 +43,7 @@ class TrickController extends AbstractController
         $this->commentService = $commentService;
     }
 
-    #[Route(path: '/show/{slug}', name: 'trick.show')]
+    #[Route(path: 'tricks/show/{slug}', name: 'trick.show')]
     public function show( Trick $trick): Response
     {
         return $this->render('pages/trick_show.html.twig',[
@@ -53,7 +53,7 @@ class TrickController extends AbstractController
         );
     }
 
-    #[Route(path: '/delete/{id}', name: 'trick.delete')]
+    #[Route(path: 'tricks/delete/{id}', name: 'trick.delete')]
     public function delete(Trick $trick): Response
     {
         $this->trickService->deleteTrick($trick);
@@ -61,7 +61,7 @@ class TrickController extends AbstractController
 
     } 
 
-    #[Route(path: '/list/', name: 'trick.list')]
+    #[Route(path: 'tricks/list/', name: 'trick.list')]
     public function list(): Response
     {
         $tricks = $this->trickService->getTricksByAuthor(1,$this->getUser());
@@ -89,9 +89,26 @@ class TrickController extends AbstractController
         );
     }
 
-    #[Route(path: '/update/{id}', name: 'trick.update')]
+    #[Route(path: 'tricks/update/{id}', name: 'trick.update')]
     public function update(Request $request, Trick $trick,TrickHandler $handler): Response
     {
+        $this->denyAccessUnlessGranted(TrickVoter::EDIT, $trick);
+        if($handler->handle($request, $trick)) {
+            return $this->redirectToRoute("trick.update",array('id' => $trick->getId()));
+        }
+        return $this->render("pages/trick_update.html.twig", [
+            "trick" => $trick,
+            "form" => $handler->createView(),
+            "image_header" =>  $trick->getImages()->first()
+        ]);
+    }
+
+    #[Route(path: '/trick/create', name: 'trick.create')]
+    public function create(Request $request, TrickHandler $handler): Response
+    {        
+        $user = $this->getUser();
+        $trick = new Trick();
+        $trick->setAuthor($user);
         $this->denyAccessUnlessGranted(TrickVoter::EDIT, $trick);
         if($handler->handle($request, $trick)) {
             return $this->redirectToRoute("trick.update",array('id' => $trick->getId()));

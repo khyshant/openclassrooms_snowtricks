@@ -21,6 +21,9 @@
                     <a class="nav-link" href="#">gérer les Utilisateur</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ path("trick.create") }}">Ajouter un trick</a>
+                </li>
+                <li class="nav-item">
                      <a class="nav-link" href="{{ path("trick.list") }}">Gérer les tricks</a>
 
                 </li>
@@ -32,7 +35,7 @@
                 </li>
             {% elseif is_granted('ROLE_USER') == TRUE %}
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Ajouter un trick</a>
+                    <a class="nav-link" href="{{ path("trick.create") }}">Ajouter un trick</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path("trick.list") }}">mes tricks</a>
