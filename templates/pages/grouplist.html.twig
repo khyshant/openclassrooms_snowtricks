@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les Groupe de Tricks{% endblock %}
+
+{% block content %}
+    <div id="home_block_container" class="container-fluid">
+        <div id="tricks">
+            {{ block("grouplist", "parts/front/grouptricklist.html.twig") }}
+        </div>
+
+        <div class="text-right  custom-chevron custom-chevron-up">
+            <a href="#tricks"><i class="fas fa-chevron-up fa-2x chevron-down"></i></a>
+        </div>
+        <div class="container">
+            <div  class="d-flex justify-content-center">
+                <a href="javascript:void(0)" id="loadMoreTrick"><i class="fas fa-plus-circle fa-3x"></i></a>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block customJavascripts %}
+
+{% endblock %}
