@@ -1,0 +1,39 @@
+{% block grouplist %}
+
+    {% for grouptrick in grouptricks  %}
+        <div class=" mb-2 row trick">
+            <h3 class="text-center col-sm-3">{{ grouptrick.name }}</h3>
+
+            {% if is_granted('edit',grouptrick) %}
+                <div class=" text-right col-sm-2">
+                    <a class="mx-1 text-warning" href=" {{ path('grouptrick.update',{id: grouptrick.id}) }} "><i class="fa fa-pen" aria-hidden="true"></i></a>
+
+                </div>
+            {% endif %}
+            {% if is_granted('delete',grouptrick) %}
+                <div class=" text-right col-sm-1">
+                    <a class="mx-1 text-danger" href="javascript:void(0)" data-toggle="modal" data-target="#deleteModal_{{ grouptrick.id }}" ><i class="fa fa-trash" aria-hidden="true"></i>
+                    </a>
+                </div>
+            {% endif %}
+            <!-- Modal -->
+            <div class="modal fade" id="deleteModal_{{ grouptrick.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModal_{{ grouptrick.id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Erase this grouptrick</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="mx-1 btn btn-danger" href="{{ path('grouptrick.delete',{id: grouptrick.id}) }}">YES</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    {% endfor %}
+
+{% endblock %}
